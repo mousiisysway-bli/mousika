@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mousika Admin</title>
+<style>
+body{font-family:system-ui,sans-serif;margin:0;background:#F2F6F3;color:#12292C}
+.w{max-width:1000px;margin:0 auto;padding:24px}
+h1,h2{margin:0 0 12px}h2{margin-top:36px}
+input,button{font:inherit;padding:9px 12px;border:1.5px solid #12292C;border-radius:8px}
+button{background:#F0A92A;font-weight:600;cursor:pointer}button.d{background:#fff;border-color:#8C2F39;color:#8C2F39}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:8px;overflow:hidden}
+td,th{padding:10px 12px;border-bottom:1px solid #12292C22;text-align:left;vertical-align:top;font-size:15px}
+th{background:#CFE0D8}
+form.add{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:8px}
+.msg{background:#fff;border-left:6px solid #8C2F39;padding:10px 14px;margin-bottom:12px}
+.top{display:flex;justify-content:space-between;align-items:center}
+.scroll{overflow-x:auto}
+</style></head><body><div class="w">
+{% if not authed %}
+<h1>Admin login</h1>
+{% with m = get_flashed_messages() %}{% for t in m %}<div class="msg">{{ t }}</div>{% endfor %}{% endwith %}
+<form method="post"><input type="password" name="password" placeholder="Password" required> <button>Log in</button></form>
+<p><a href="/">Back to website</a></p>
+{% else %}
+<div class="top"><h1>Mousika admin</h1><span><a href="/">Website</a> &middot; <a href="/admin/logout">Log out</a></span></div>
+<h2>Enrollments ({{ rows|length }})</h2>
+<div class="scroll"><table><tr><th>Date</th><th>Name</th><th>Phone</th><th>Email</th><th>Course</th><th>Message</th><th></th></tr>
+{% for r in rows %}<tr><td>{{ r.created_at }}</td><td>{{ r.name }}</td><td>{{ r.phone }}</td><td>{{ r.email }}</td><td>{{ r.course }}</td><td>{{ r.message }}</td>
+<td><form method="post" action="/admin/enrollment/{{ r.id }}/delete"><button class="d">Delete</button></form></td></tr>
+{% else %}<tr><td colspan="7">No enrollments yet.</td></tr>{% endfor %}</table></div>
+<h2>Courses</h2>
+<form class="add" method="post" action="/admin/course">
+<input name="title" placeholder="Course name" required><input name="duration" placeholder="Duration"><input name="schedule" placeholder="Schedule"><input name="fee" type="number" placeholder="Fee per month"><input name="description" placeholder="Short description"><button>Add course</button></form>
+<div class="scroll"><table><tr><th>Name</th><th>Duration</th><th>Schedule</th><th>Fee</th><th></th></tr>
+{% for c in courses %}<tr><td>{{ c.title }}</td><td>{{ c.duration }}</td><td>{{ c.schedule }}</td><td>&#8377;{{ c.fee }}</td>
+<td><form method="post" action="/admin/course/{{ c.id }}/delete"><button class="d">Delete</button></form></td></tr>{% endfor %}</table></div>
+{% endif %}
+</div></body></html>

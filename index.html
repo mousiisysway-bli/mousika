@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mousika Music Course Center</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Mukta:wght@400;600&family=Noto+Sans+Tamil:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#12292C;--paper:#F2F6F3;--gold:#F0A92A;--rose:#8C2F39;--sage:#CFE0D8;--line:#12292C22}
+*{box-sizing:border-box}
+body{margin:0;font-family:Mukta,system-ui,sans-serif;color:var(--ink);background:var(--paper);line-height:1.6;font-size:18px}
+h1,h2,h3{font-family:"Young Serif",Georgia,serif;font-weight:400;line-height:1.1;margin:0}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+header{display:flex;justify-content:space-between;align-items:center;padding:22px 0}
+header b{font-family:"Young Serif",serif;font-size:24px;font-weight:400}
+header nav a{margin-left:22px;text-decoration:none}
+header nav a:hover{text-decoration:underline}
+.hero{background:var(--ink);color:#F2F6F3}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;padding-top:48px;padding-bottom:72px}
+.hero header{color:#F2F6F3}
+.hero h1{font-size:clamp(44px,7vw,84px)}
+.ta{font-family:"Noto Sans Tamil",sans-serif;color:var(--gold);font-size:22px;margin:14px 0 10px}
+.hero p{max-width:46ch;color:#F2F6F3cc}
+.btn{display:inline-block;background:var(--gold);color:var(--ink);padding:12px 26px;border-radius:999px;text-decoration:none;font-weight:600;border:0;font:inherit;font-weight:600;cursor:pointer}
+.btn:hover{filter:brightness(1.07)}
+.keys{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.keys button{aspect-ratio:1/1.25;border:0;border-radius:10px;background:#F2F6F3;color:var(--ink);font-family:"Young Serif",serif;font-size:22px;cursor:pointer;transition:transform .08s,background .15s}
+.keys button:nth-child(even){background:var(--sage)}
+.keys button:active,.keys button.on{transform:translateY(4px);background:var(--gold)}
+.hint{font-size:15px;color:#F2F6F399;margin-top:12px}
+section{padding:72px 0}
+section h2{font-size:clamp(30px,4vw,44px);margin-bottom:8px}
+.sub{max-width:52ch;margin:0 0 32px;color:#12292Cb0}
+.course{display:grid;grid-template-columns:1fr auto;gap:8px 24px;padding:22px 0;border-top:1px solid var(--line)}
+.course:last-child{border-bottom:1px solid var(--line)}
+.course h3{font-size:26px}
+.course p{margin:4px 0 0;max-width:58ch}
+.meta{font-size:15px;color:#12292Caa}
+.fee{text-align:right;font-family:"Young Serif",serif;font-size:26px;color:var(--rose)}
+.fee small{display:block;font-family:Mukta,sans-serif;font-size:14px;color:#12292Caa}
+.enroll{background:var(--sage)}
+.enroll .wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:48px}
+form{display:grid;gap:14px}
+label{font-size:15px;font-weight:600}
+input,select,textarea{width:100%;font:inherit;padding:11px 14px;border:1.5px solid var(--ink);border-radius:8px;background:#fff;color:var(--ink)}
+input:focus,select:focus,textarea:focus,button:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.msg{padding:12px 16px;border-radius:8px;margin-bottom:14px;font-weight:600}
+.msg.ok{background:#fff;border-left:6px solid #2e7d4f}.msg.error{background:#fff;border-left:6px solid var(--rose)}
+footer{padding:32px 0;font-size:15px}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+@media(max-width:800px){.hero .wrap,.enroll .wrap{grid-template-columns:1fr}.two{grid-template-columns:1fr}.course{grid-template-columns:1fr}.fee{text-align:left}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="hero">
+<div class="wrap" style="display:block;padding-bottom:0">
+<header><b>Mousika</b><nav><a href="#courses">Courses</a><a href="#enroll">Enroll</a><a href="/admin">Admin</a></nav></header>
+</div>
+<div class="wrap">
+<div>
+<h1>Learn music the way it is meant to be heard.</h1>
+<div class="ta">இசை கற்போம்</div>
+<p>Mousika Course Center teaches vocal and instruments in small batches, with a teacher who listens to every student.</p>
+<p><a class="btn" href="#enroll">Join a batch</a></p>
+</div>
+<div>
+<div class="keys" id="keys"></div>
+<div class="hint">Tap the swaras and hear them.</div>
+</div>
+</div>
+</div>
+
+<section id="courses"><div class="wrap">
+<h2>Our courses</h2>
+<p class="sub">Pick an instrument or voice. Every course starts from the basics and builds to a performance.</p>
+{% for c in courses %}
+<div class="course">
+<div><h3>{{ c.title }}</h3><p>{{ c.description }}</p><div class="meta">{{ c.duration }} &middot; {{ c.schedule }}</div></div>
+<div class="fee">&#8377;{{ c.fee }}<small>per month</small></div>
+</div>
+{% endfor %}
+</div></section>
+
+<section class="enroll" id="enroll"><div class="wrap">
+<div><h2>Enroll or ask a question</h2><p>Fill the form and we will call you to confirm your batch and give a free demo class.</p></div>
+<div>
+{% with m = get_flashed_messages(with_categories=true) %}{% for cat, t in m %}<div class="msg {{ cat }}">{{ t }}</div>{% endfor %}{% endwith %}
+<form method="post" action="/enroll">
+<div class="two">
+<div><label for="n">Name</label><input id="n" name="name" required></div>
+<div><label for="p">Phone</label><input id="p" name="phone" inputmode="tel" required></div>
+</div>
+<div class="two">
+<div><label for="e">Email (optional)</label><input id="e" name="email" type="email"></div>
+<div><label for="c">Course</label><select id="c" name="course_id">{% for c in courses %}<option value="{{ c.id }}">{{ c.title }}</option>{% endfor %}</select></div>
+</div>
+<div><label for="m">Message (optional)</label><textarea id="m" name="message" rows="3"></textarea></div>
+<button class="btn" type="submit">Send enrollment</button>
+</form>
+</div>
+</div></section>
+
+<footer><div class="wrap"><span>&copy; Mousika Music Course Center</span><span>Madurai, Tamil Nadu</span></div></footer>
+
+<script>
+const sw=[["Sa",1],["Ri",9/8],["Ga",5/4],["Ma",4/3],["Pa",3/2],["Dha",5/3],["Ni",15/8],["Sa",2]];
+const box=document.getElementById("keys");let ctx;
+sw.forEach(([n,r])=>{const b=document.createElement("button");b.textContent=n;b.onclick=()=>{
+ctx=ctx||new (window.AudioContext||window.webkitAudioContext)();
+const o=ctx.createOscillator(),g=ctx.createGain();o.type="triangle";o.frequency.value=261.63*r;
+g.gain.setValueAtTime(.0001,ctx.currentTime);g.gain.exponentialRampToValueAtTime(.4,ctx.currentTime+.02);
+g.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+1.2);o.connect(g).connect(ctx.destination);o.start();o.stop(ctx.currentTime+1.3);
+b.classList.add("on");setTimeout(()=>b.classList.remove("on"),180)};box.appendChild(b)});
+</script>
+</body>
+</html>
